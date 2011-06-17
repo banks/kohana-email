@@ -78,9 +78,10 @@ class Email {
 	 * @param   string        message subject
 	 * @param   string        message body
 	 * @param   boolean       send email as HTML
+	 * @param   string	  encoding type to use ('7-bit', '8-bit', 'base64' or 'qp'
 	 * @return  integer       number of emails sent
 	 */
-	public static function send($to, $from, $subject, $message, $html = FALSE)
+	public static function send($to, $from, $subject, $message, $html = FALSE, $encoding = NULL)
 	{
 		// Connect to SwiftMailer
 		(Email::$mail === NULL) and email::connect();
@@ -90,6 +91,25 @@ class Email {
 
 		// Create the message
 		$message = Swift_Message::newInstance($subject, $message, $html, 'utf-8');
+
+		if ( ! is_null($encoding))
+		{
+			switch ($encoding)
+			{
+				case '7-bit':
+					$message->setEncoder(Swift_Encoding::get7BitEncoding());
+					break;
+				case '8-bit':
+					$message->setEncoder(Swift_Encoding::get8BitEncoding());
+					break;
+				case 'base64':
+					$message->setEncoder(Swift_Encoding::getBase64Encoding());
+					break;
+				case 'qp':
+					$message->setEncoder(Swift_Encoding::getQpEncoding());
+					break;
+			}
+		}
 
 		if (is_string($to))
 		{
@@ -142,4 +162,4 @@ class Email {
 		return Email::$mail->send($message);
 	}
 
-} // End email
+} // End emailef
