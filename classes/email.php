@@ -31,7 +31,8 @@ class Email {
 		}
 
 		// Load default configuration
-		($config === NULL) and $config = Kohana::config('email');
+		//Change load config to kohana 3.2 version
+		($config === NULL) and $config = Kohana::$config->load('email');
 		
 		switch ($config['driver'])
 		{
