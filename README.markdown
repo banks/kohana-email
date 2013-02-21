@@ -1,3 +1,5 @@
+Forked to fix it for using with Kohana 3.2
+
 Email Module For Kohana 3.0
 =================================
 
